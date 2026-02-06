@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Love Quiz ❤️</title>
+<style>
+body{
+font-family:Arial;
+background:#ffe4ec;
+text-align:center;
+padding:30px;
+}
+.box{
+background:white;
+padding:20px;
+border-radius:10px;
+max-width:500px;
+margin:auto;
+}
+button{
+background:#ff4d6d;
+color:white;
+border:none;
+padding:12px 20px;
+border-radius:6px;
+font-size:16px;
+cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+
+<h2>Romantic Love Quiz 💕</h2>
+
+<form id="quiz">
+
+<p>1. Who is the most beautiful person in your life? 😘</p>
+<input type="radio" name="q1" value="1"> You ❤️<br>
+<input type="radio" name="q1" value="0"> Someone else 😜<br>
+
+<p>2. Who makes your life happier?</p>
+<input type="radio" name="q2" value="1"> You 💖<br>
+<input type="radio" name="q2" value="0"> Food 🍕<br>
+
+<p>3. Who do you love the most?</p>
+<input type="radio" name="q3" value="1"> My Wife 😍<br>
+<input type="radio" name="q3" value="0"> Sleep 😴<br>
+
+<p>4. Our favorite memory?</p>
+<input type="radio" name="q4" value="1"> Every moment with you 💕<br>
+<input type="radio" name="q4" value="0"> Watching TV 📺<br>
+
+<p>5. Who is your forever Valentine?</p>
+<input type="radio" name="q5" value="1"> You ❤️<br>
+<input type="radio" name="q5" value="0"> Chocolate 🍫<br>
+
+<p>6. How much do you love me?</p>
+<input type="radio" name="q6" value="1"> Infinite ♾️💖<br>
+<input type="radio" name="q6" value="0"> Little 😅<br><br>
+
+<button type="button" onclick="showResult()">See Result 💌</button>
+
+</form>
+
+<h3 id="result"></h3>
+
+</div>
+
+<script>
+function showResult(){
+let score = 0;
+let total = 6;
+let form = document.forms["quiz"];
+
+for(let i=1;i<=6;i++){
+let q = form["q"+i];
+for(let j=0;j<q.length;j++){
+if(q[j].checked){
+score += Number(q[j].value);
+}
+}
+}
+
+let percent = Math.round((score/total)*100);
+let message = "";
+
+if(percent==100){
+message = "You love me 100% ❤️😍 Best Husband Ever!";
+}
+else if(percent>=70){
+message = "You love me a lot 💕😘";
+}
+else{
+message = "Hmm... you need more romance 😜❤️";
+}
+
+document.getElementById("result").innerHTML =
+"Your Love Score: "+percent+"% 💖<br>"+message;
+}
+</script>
+
+</body>
+</html>
