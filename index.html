@@ -73,7 +73,7 @@ transition:0.3s;
 <input type="text" id="answer">
 
 <br>
-<button onclick="prevQuestion()">⬅ Back</button>
+<button id="backBtn" onclick="prevQuestion()">⬅ Back</button>
 <button onclick="nextQuestion()">Next ❤️</button>
 </div>
 
@@ -98,11 +98,16 @@ let current = 0;
 showQuestion();
 
 function showQuestion(){
+
 document.getElementById("questionText").innerText =
 "Question " + (current+1) + " of " + questions.length + ":\n\n" + questions[current];
 
 document.getElementById("answer").value = answers[current];
 updateProgress();
+
+/* 🔹 Hide Back button on first question */
+document.getElementById("backBtn").style.display =
+(current === 0) ? "none" : "inline-block";
 }
 
 function updateProgress(){
