@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Our Love Quiz ❤️</title>
+<title>Our Love Journey ❤️</title>
+
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 
 <style>
 body{
-font-family: Arial;
-background: linear-gradient(#ffe4ec,#ffd6e0);
+font-family:Arial;
+background:linear-gradient(#ffe4ec,#ffd6e0);
 text-align:center;
 padding:30px;
 }
@@ -23,10 +25,10 @@ box-shadow:0 4px 12px rgba(0,0,0,0.1);
 input{
 width:90%;
 padding:10px;
-margin:8px 0 18px;
+margin:20px 0;
 border-radius:6px;
 border:1px solid #ccc;
-font-size:14px;
+font-size:15px;
 }
 
 button{
@@ -39,8 +41,20 @@ font-size:16px;
 cursor:pointer;
 }
 
-h3{
-margin-top:20px;
+.progress{
+width:100%;
+background:#eee;
+border-radius:20px;
+height:12px;
+margin:20px 0;
+overflow:hidden;
+}
+
+.progress-bar{
+height:100%;
+width:0%;
+background:#ff4d6d;
+transition:0.3s;
 }
 </style>
 </head>
@@ -49,69 +63,84 @@ margin-top:20px;
 
 <div class="box">
 
-<h2>Our Love Quiz 💕</h2>
-<p>Answer honestly my love 😘</p>
+<h2>Our Love Journey 💕</h2>
 
-<form id="quiz">
+<div class="progress">
+<div class="progress-bar" id="bar"></div>
+</div>
 
-<p>1. Where did we first meet? 💖</p>
-<input type="text" id="q1">
-
-<p>2. What is my favorite thing about you? ❤️</p>
-<input type="text" id="q2">
-
-<p>3. What is our most special memory together? 💕</p>
-<input type="text" id="q3">
-
-<p>4. What nickname do you lovingly call me? 😘</p>
-<input type="text" id="q4">
-
-<p>5. What is one promise you will always keep for me? 💍</p>
-<input type="text" id="q5">
-
-<p>6. How much do you love me? (Describe in words) ❤️</p>
-<input type="text" id="q6">
-
-<button type="button" onclick="calculateLove()">See Result 💌</button>
-
-</form>
+<div id="questionBox">
+<p id="questionText"></p>
+<input type="text" id="answer">
+<br>
+<button onclick="nextQuestion()">Next ❤️</button>
+</div>
 
 <h3 id="result"></h3>
 
 </div>
 
 <script>
-function calculateLove(){
 
-let score = 0;
+// 🔐 INIT EMAILJS (PASTE YOUR PUBLIC KEY)
+emailjs.init("YOUR_PUBLIC_KEY");
 
-for(let i=1;i<=6;i++){
-let ans = document.getElementById("q"+i).value.trim().toLowerCase();
+let questions = [
+"Where did we first meet? 💖",
+"What is your favorite thing about me? ❤️",
+"What is our most special memory together? 💕",
+"What nickname do you call me? 😘",
+"What promise will you always keep for me? 💍",
+"How much do you love me? ❤️"
+];
 
-if(ans.length > 0) score += 15;   // answered = love
-if(ans.includes("love") || ans.includes("forever") || ans.includes("always")) score += 5;
+let answers = [];
+let current = 0;
+
+showQuestion();
+
+function showQuestion(){
+document.getElementById("questionText").innerText = questions[current];
+document.getElementById("answer").value = "";
+updateProgress();
 }
 
-if(score > 100) score = 100;
-
-let message = "";
-
-if(score >= 90){
-message = "You love me deeply ❤️😍 Best Husband Ever 💕";
+function updateProgress(){
+let percent = (current / questions.length) * 100;
+document.getElementById("bar").style.width = percent + "%";
 }
-else if(score >= 70){
-message = "Your love is beautiful and real 💖😘";
+
+function nextQuestion(){
+
+let ans = document.getElementById("answer").value.trim();
+if(ans === ""){
+alert("Please write something ❤️");
+return;
 }
-else if(score >= 50){
-message = "Not bad… but you owe me extra hugs 😜❤️";
+
+answers.push(ans);
+current++;
+
+if(current < questions.length){
+showQuestion();
 }
 else{
-message = "Hmm… I need more love from you 😄💕";
+sendEmail();
+showResult();
+}
 }
 
-document.getElementById("result").innerHTML =
-"Your Love Score: <b>"+score+"%</b> 💘<br><br>"+message;
+function showResult(){
 
+document.getElementById("questionBox").style.display = "none";
+document.getElementById("bar").style.width = "100%";
+
+let score = 70 + Math.min(30, answers.join("").length / 10);
+
+let msg = "You love me deeply ❤️😍 Best Husband Ever 💕";
+
+document.getElementById("result").innerHTML =
+"Your Love Score: <b>"+Math.round(score)+"%</b> 💘<br><br>"+msg;
 }
 </script>
 
